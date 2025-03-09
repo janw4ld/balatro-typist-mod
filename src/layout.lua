@@ -39,15 +39,15 @@ M.global_map = stitch({
     dvorak = "q",
     qwerty = "x",
   },
-  [global.OPTIONS] = {
-    dvorak = "v",
-    qwerty = ".",
-  },
+  -- [global.OPTIONS] = {
+  --   dvorak = "v",
+  --   qwerty = ".",
+  -- },
 }, {
   [global.RUN_INFO] = function()
     if G.HUD and G.HUD:get_UIE_by_ID("run_info_button").config.button then G.FUNCS.run_info() end
   end,
-  [global.OPTIONS] = G.FUNCS.options,
+  -- [global.OPTIONS] = G.FUNCS.options,
 }, layout)
 
 local cardarea = tu.enum { "HAND", "JOKERS", "CONSUMEABLES" }
@@ -103,21 +103,25 @@ local function subscript_fields(keymap, l)
 end
 
 M.hand = subscript_fields({
-  invert_selection = {
-    dvorak = "x",
-    qwerty = "b",
-  },
   deselect_all = {
+    dvorak = "m",
+    qwerty = "m",
+  },
+  invert_selection = {
     dvorak = "b",
     qwerty = "n",
   },
   left5 = {
-    dvorak = "m",
-    qwerty = "m",
-  },
-  right5 = {
     dvorak = "w",
     qwerty = ",",
+  },
+  right5 = {
+    dvorak = "v",
+    qwerty = ".",
+  },
+  reorder_by_enhancements = {
+    dvorak = "x",
+    qwerty = "b",
   },
   sort_by_rank = {
     dvorak = "k",
@@ -139,14 +143,14 @@ M.cheat = tu.override_merge(subscript_fields({
     dvorak = "'",
     qwerty = "q",
   },
-  best_high_card = {
-    dvorak = "k",
-    qwerty = "h",
-  },
-  worst_high_card = {
-    dvorak = "j",
-    qwerty = "l",
-  },
+  -- best_high_card = {
+  --   dvorak = "k",
+  --   qwerty = "h",
+  -- },
+  -- worst_high_card = {
+  --   dvorak = "j",
+  --   qwerty = "l",
+  -- },
 }, layout), {
   best_hand = "b",
   best_flush = "f",

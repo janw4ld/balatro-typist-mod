@@ -37,18 +37,6 @@ other mods:
 ## feature overview
 
 - toggling hand cards with `asdfgh...` keys
-- support for `qwerty` and `dvorak` keyboard layouts, where positional keys are kept consistent across both layouts and mnemonic keys aren't changed. (e.g. `asdf` to toggle the first four cards in qwerty translates to `aoeu` in dvorak, but `r` to reroll the shop or the boss blind stays `r` in both layouts)
-- support for keybind overrides, so you can change the default keybinds to your liking
-- any key to skip the splash screen and `space` to click any "play" or "continue" button, so a run can be started from game launch until the first blind with the `space` button only
-- cardarea keybind layers for selecting, moving, selling & using cards. these apply globally for 
-  - consumables, accessed by holding `'`
-  - jokers, accessed by holding `[`
-  - pack cards, with no leader key
-  - the shop, with no leader key
-  - the hand, which is accessed
-    - by holding `/` everywhere for selection and movement of a single card
-    - by holding `shift+/` for multiselect in booster packs
-    - with no leader key for multiselect in rounds
 - a complete implementation of every action in every game state, with
   - `space` being generally the "proceed" button:
     - it plays the selected hand
@@ -63,14 +51,30 @@ other mods:
     - skips the current booster pack
     - closes any overlay menu
     - exits to main menu from the game over screen
-  - mnemonic keys for less frequent actions, like `s` to skip blinds, `r` to reroll the shop or boss, `b` in the cheat layer (accessed by holding `p`) to pick the best hand out the available cards, `f` in the cheat layer to fish for the best flush in hand, etc
-  - the bottom row of the keyboard as the "control panel", where 
-    - in rounds: `c` & `v` to sort hand cards 
-    - in the shop: `c` to buy an item or a pack or a voucher & `v` to buy and use an item or buy a pack or a voucher
-    - `b` to invert card selection in rounds and `n` to deselect all cards in a cardarea 
+  - the bottom row of the keyboard as the "control panel", for example:
+    - in rounds: 
+      - `c` to sort by suit
+      - `v` to sort by rank
+      - `b` to sort by enhancement+rank, where glass cards are moved to the end, and lucky and mult cards to the beginning
+    - in the shop: 
+      - `c` to buy an item or a pack or a voucher 
+      - `v` to buy and use an item, or buy a pack or a voucher
+    - `m` to deselect all cards in a cardarea and `n` to invert card selection in rounds
     - `x` to view run info whenever it's available
-    - `.` to open the options overlay menu (the same as `escape`)
     - & others (see [`./layout.lua`](./layout.lua)) for dvorak and the full keymap
+  - mnemonic keys for less frequent actions, like `s` to skip blinds, `r` to reroll the shop or boss, `b` in the cheat layer (accessed by holding `p`) to pick the best hand out the available cards, `f` in the cheat layer to fish for the best flush in hand, etc
+- cardarea keybind layers for selecting, moving, selling & using cards. these apply globally for 
+  - consumables, accessed by holding `'`
+  - jokers, accessed by holding `[`
+  - pack cards, with no leader key
+  - the shop, with no leader key
+  - the hand, which is accessed
+    - by holding `/` everywhere for selection and movement of a single card
+    - by holding `shift+/` for multiselect in booster packs
+    - with no leader key for multiselect in rounds
+- support for `qwerty` and `dvorak` keyboard layouts, where positional keys are kept consistent across both layouts and mnemonic keys aren't changed. (e.g. `asdf` to toggle the first four cards in qwerty translates to `aoeu` in dvorak, but `r` to reroll the shop or the boss blind stays `r` in both layouts)
+- support for keybind overrides, so you can change the default keybinds to your liking
+- any key to skip the splash screen and `space` to click any "play" or "continue" button, so a run can be started from game launch until the first blind with the `space` button only
 
 ## TODOs
 

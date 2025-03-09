@@ -142,4 +142,29 @@ M.best_hand = function()
   hu.highlight_hand(hu.next_best_hand(possible_hands, G.hand.highlighted))
 end
 
+local card_order_by_modifier
+-- stylua: ignore
+card_order_by_modifier = tu.enum({
+  hu.card_modifiers.edition.holo,
+  hu.card_modifiers.enhancement.Lucky,
+  hu.card_modifiers.enhancement.Mult,
+  hu.card_modifiers.edition.foil,
+  hu.card_modifiers.enhancement.Bonus,
+  "EVERYTHING_ELSE",
+  hu.card_modifiers.edition.polychrome,
+  hu.card_modifiers.enhancement.Glass,
+}, function() return card_order_by_modifier.EVERYTHING_ELSE end)
+M.reorder_by_enhancements = function()
+  table.sort(G.hand.cards, function(x, y)
+    local x_order = card_order_by_modifier[hu.card_main_ability(x)]
+    local y_order = card_order_by_modifier[hu.card_main_ability(y)]
+    -- TODO: try to stack polychrome, glass and red seal on the very last card
+    if x_order == y_order then
+      return hu.card_importance(x, hu.Action.PLAY) < hu.card_importance(y, hu.Action.PLAY)
+    else
+      return x_order < y_order
+    end
+  end)
+end
+
 return M

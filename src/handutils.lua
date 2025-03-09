@@ -32,7 +32,51 @@ M.RankNullReason = tu.enum({ [99] = "STONE", [101] = "MYSTERY" }, {
 })
 tu.enum_attach_valueset(M.RankNullReason)
 
+M.card_modifiers = {
+  seal = { Gold = 1, Blue = 2, Red = 3, Purple = 4 },
+  edition = { holo = 5, foil = 6, polychrome = 7 },
+  -- stylua: ignore
+  enhancement = {
+    ["Default Base"] = 9, Wild = 10, Steel = 11, Glass = 12, Bonus = 13,
+    Mult = 14, Stone = 15, Lucky = 16, Gold = 17,
+  },
+}
+
+-- stylua: ignore
+local edition_vs_enhancement_precedence = tu.enum({
+  M.card_modifiers.enhancement.Glass,
+  M.card_modifiers.edition.polychrome,
+  M.card_modifiers.edition.holo,
+  M.card_modifiers.enhancement.Mult,
+  M.card_modifiers.enhancement.Lucky,
+  M.card_modifiers.edition.foil,
+  M.card_modifiers.enhancement.Bonus,
+}, function() return math.huge end)
+M.card_main_ability = function(card)
+  if card.debuff then return false end
+  -- stylua: ignore
+  local c_mods = setmetatable({}, { __index = function() return 0 end })
+  if card.ability then
+    local effect = string.gsub(card.ability.name, " Card", "")
+    c_mods.ability = M.card_modifiers.enhancement[effect]
+  end
+  if card.edition then
+    for k, _ in pairs(M.card_modifiers.edition) do
+      if card.edition[k] then
+        c_mods.edition = M.card_modifiers.edition[k]
+        break
+      end
+    end
+  end
+  return edition_vs_enhancement_precedence[c_mods.edition]
+        < edition_vs_enhancement_precedence[c_mods.ability]
+      and c_mods.edition
+    or c_mods.ability
+    or false
+end
+
 -- weights for how urgently a card should be played or discarded given its enhancements
+-- TODO: update it to use the card_modifiers table as keys
 local enhancement_weights = {
   seal = {
     Gold = { [M.Action.PLAY] = 20, [M.Action.DISCARD] = -10 },
@@ -286,16 +330,8 @@ M.ranked_hands = function(cards)
   table.sort(twos, function(x, y)
     return M.hand_importance(x) > M.hand_importance(y)
   end)
-  local res = {}
-  res = tu.list_concat(res, fives)
-  res = tu.list_concat(res, fours)
-  res = tu.list_concat(res, full_houses)
-  res = tu.list_concat(res, flushes)
-  res = tu.list_concat(res, straights)
-  res = tu.list_concat(res, trips)
-  res = tu.list_concat(res, two_pairs)
-  res = tu.list_concat(res, twos)
-  return res
+
+  return tu.list_concat(fives, fours, full_houses, flushes, straights, trips, two_pairs, twos)
 end
 
 M.next_best_hand = function(possible_hands, curr_hand)

@@ -68,6 +68,8 @@ M[G.STATES.SELECTING_HAND] = function(key, held_keys)
     G.FUNCS.sort_hand_value(nil)
   elseif key == layout.hand.sort_by_suit then
     G.FUNCS.sort_hand_suit(nil)
+  elseif key == layout.hand.reorder_by_enhancements then
+    hand.reorder_by_enhancements()
   end
 end
 
@@ -87,10 +89,10 @@ cheat_layer = function(key)
   -- best flush
   elseif key == layout.cheat.best_flush then
     hand.flush(hand.best_flush_suit())
-  elseif key == layout.cheat.best_high_card then
+  --[[ elseif key == layout.cheat.best_high_card then
     hand.best_high_card()
   elseif key == layout.cheat.worst_high_card then
-    hand.worst_high_card()
+    hand.worst_high_card() ]]
   -- select by suit
   elseif layout.cheat.suits_map[key] then
     hand.flush(layout.cheat.suits_map[key])
