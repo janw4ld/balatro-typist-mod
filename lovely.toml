@@ -10,12 +10,19 @@ times = 1
 pattern = "function Controller:key_hold_update(key, dt)"
 payload = '''
 local key_press_update_impl = Controller.key_press_update
+local is_mac = love.system.getOS() == 'OS X'
+local debug_leader_right = is_mac and 'rgui' or 'rctrl'
+local debug_leader_left = is_mac and 'lgui' or 'lctrl'
 function Controller:key_press_update(key, dt)
-  if G.DEBUG then
-    if self.held_keys["lctrl"] then
-      require("typist")(self, key, dt)
-    else
+  if not _RELEASE_MODE then
+    if
+      consoleOpen
+      or self.held_keys[debug_leader_right]
+      or self.held_keys[debug_leader_left]
+    then
       return key_press_update_impl(self, key, dt)
+    else
+      require("typist")(self, key, dt)
     end
   else
     require("typist")(self, key, dt)
