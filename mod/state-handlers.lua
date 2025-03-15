@@ -131,9 +131,6 @@ end
 -- pseudo-CardArea object to manipulate the shop as if it's one hand
 local shop = setmetatable({}, { __index = { __typist_shop = true } })
 M[G.STATES.SHOP] = function(key)
-  -- wait for state transition to finish
-  if G.GAME.STOP_USE ~= 0 then return end
-
   -- reroll shop
   if
     key == layout.reroll
@@ -165,9 +162,6 @@ M[G.STATES.SHOP] = function(key)
 end
 
 M[G.STATES.BLIND_SELECT] = function(key)
-  -- wait for state transition to finish
-  if G.GAME.STOP_USE ~= 0 then return end
-
   -- select blind
   if key == layout.proceed then
     local e =

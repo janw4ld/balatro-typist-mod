@@ -24,7 +24,7 @@ return function(Controller, key) -- order defines precedence
   then -- nothing :)
   elseif G.SETTINGS.paused then
     require("typist.mod.state-handlers")[G.STATES.MENU](key)
-  elseif require("typist.mod.state-handlers")[G.STATE] then
+  elseif require("typist.mod.state-handlers")[G.STATE] and G.GAME.STOP_USE == 0 then
     require("typist.mod.state-handlers")[G.STATE](key, Controller.held_keys)
   end
 
