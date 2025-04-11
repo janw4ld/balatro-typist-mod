@@ -4,14 +4,18 @@ local tu = require("typist.lib.tblutils")
 
 local layout = require("typist.mod.layout")
 
+-- TODO: unused
+__typist_ACTIVE_TOP_AREA_SELECTION = nil
+
 -- returns whether or not the method did anything, if it returns false then we
 -- should fallthrough to the next key handler branches
 return function(area, key, held_keys)
-  local target = layout.free_select_map[key]
+  local target = layout.free_select_two_electric_boogaloo[key] or layout.free_select_map[key]
 
   -- if no cards selected, select the target card
   if target and #area.highlighted == 0 then
-    CardArea.__typist_toggle_card_by_index(area, target)
+    local last_hover = CardArea.__typist_toggle_card_by_index(area, target)
+    __typist_ACTIVE_TOP_AREA_SELECTION = area.__typist_top_area and last_hover
     return true -- otherwise out of bounds will falltrough to other card areas and confuse players
   end
 
@@ -70,8 +74,8 @@ return function(area, key, held_keys)
     if src_pos == target then
       CardArea.__typist_toggle_card_by_index(area, target)
 
-    -- if it's a shop card change the selection with no need to deselect first
-    elseif area.__typist_shop or area == G.pack_cards then
+    -- if it's a shop or top area card change the selection with no need to deselect first
+    elseif area.__typist_shop or area.__typist_top_area or area == G.pack_cards then
       CardArea.__typist_toggle_card_by_index(area, src_pos)
       CardArea.__typist_toggle_card_by_index(area, target)
 

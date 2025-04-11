@@ -44,7 +44,7 @@ function CardArea:__typist_toggle_card_by_index(index)
     G.E_MANAGER:add_event(last_hover.e)
   end
 
-  return true
+  return target.highlighted and target
 end
 M.toggle_card_by_index = CardArea.__typist_toggle_card_by_index
 

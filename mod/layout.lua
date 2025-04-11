@@ -57,7 +57,11 @@ M.free_select_map = ({
     "q", "w", "e", "r", "t";
   },
 })[layout]
-
+-- stylua: ignore
+M.free_select_two_electric_boogaloo = {
+  ["1"] = 1, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5;
+  ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["0"] = 10;
+}
 local function stitch(keymap, impls, l)
   local res = {}
   for k, v in pairs(impls) do
